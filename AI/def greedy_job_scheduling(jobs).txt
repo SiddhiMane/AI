@@ -1,0 +1,22 @@
+def greedy_job_scheduling(jobs):
+    sorted_jobs = sorted(jobs, key=lambda x: x[1])  # Sort jobs based on deadlines
+    schedule = []  # List to store the scheduled jobs
+    max_profit = 0  # Variable to track the maximum profit
+
+    current_time = 0  # Current time
+
+    for job in sorted_jobs:
+        profit, deadline = job
+
+        if current_time + 1 <= deadline:
+            schedule.append(job)  # Schedule the job
+            max_profit += profit  # Update the maximum profit
+            current_time += 1  # Increment the current time
+
+    return schedule, max_profit
+
+# Example usage
+jobs = [(35, 3), (50, 2), (30, 4), (25, 2), (15, 3), (10, 1)]
+schedule, max_profit = greedy_job_scheduling(jobs)
+print("Scheduled Jobs:", schedule)
+print("Maximum Profit:", max_profit)

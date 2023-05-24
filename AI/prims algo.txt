@@ -1,0 +1,36 @@
+import sys
+
+def greedy_prim(graph):
+    vertices = set(graph.keys())  # Set of all vertices in the graph
+    mst = []  # Minimum Spanning Tree
+    start_vertex = next(iter(vertices))  # Start with an arbitrary vertex
+
+    visited = {start_vertex}  # Set to track visited vertices
+    while visited != vertices:
+        min_edge = (None, None, sys.maxsize)  # Initialize the minimum edge
+
+        # Find the minimum edge connecting visited and unvisited vertices
+        for vertex in visited:
+            for neighbor, weight in graph[vertex].items():
+                if neighbor not in visited and weight < min_edge[2]:
+                    min_edge = (vertex, neighbor, weight)
+
+        # Add the minimum edge and the corresponding vertex to the MST
+        mst.append(min_edge)
+        visited.add(min_edge[1])
+
+    return mst
+
+# Example graph represented as an adjacency dictionary
+graph = {
+    'A': {'B': 2, 'C': 3},
+    'B': {'A': 2, 'C': 1, 'D': 4},
+    'C': {'A': 3, 'B': 1, 'D': 2},
+    'D': {'B': 4, 'C': 2}
+}
+
+# Call Greedy Prim's algorithm
+mst = greedy_prim(graph)
+print("Minimum Spanning Tree:")
+for edge in mst:
+    print(edge)

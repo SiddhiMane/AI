@@ -1,0 +1,50 @@
+def is_safe(board, row, col, n):
+    # Check if a queen can be placed at the given position
+    # without conflicting with the existing queens
+    for i in range(row):
+        if board[i][col] == 1:
+            return False
+
+    for i, j in zip(range(row, -1, -1), range(col, -1, -1)):
+        if board[i][j] == 1:
+            return False
+
+    for i, j in zip(range(row, -1, -1), range(col, n)):
+        if board[i][j] == 1:
+            return False
+
+    return True
+
+def solve_n_queens(n):
+    board = [[0] * n for _ in range(n)]
+
+    def backtrack(row):
+        if row == n:
+            # All queens have been placed successfully
+            # Print the board or store the solution
+            print_solution(board)
+            return True
+
+        for col in range(n):
+            if is_safe(board, row, col, n):
+                board[row][col] = 1
+
+                if backtrack(row + 1):
+                    return True
+
+                board[row][col] = 0
+
+        return False
+
+    return backtrack(0)
+
+def print_solution(board):
+    n = len(board)
+    for i in range(n):
+        for j in range(n):
+            print(board[i][j], end=" ")
+        print()
+
+# Example usage
+n = 4
+solve_n_queens(n)
